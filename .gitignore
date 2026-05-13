@@ -1,0 +1,49 @@
+# dependencies
+node_modules
+
+# build
+dist
+build
+
+# env
+.env
+.env.*
+!.env.example
+
+# logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
+
+# TypeScript
+*.tsbuildinfo
+
+# coverage
+coverage
+
+# cache
+.cache
+
+# temporary files
+tmp
+temp
+
+# docker
+docker-data
+
+# firebase
+.firebase
+
+# misc
+*.local
