@@ -2,6 +2,7 @@ import { prisma } from '../lib/prisma'
 import bcrypt from 'bcrypt'
 import { CreateUsers } from '../types/users.type'
 
+
 export const getAllUsersService = async () => {
     return await prisma.users.findMany({
         select: {
