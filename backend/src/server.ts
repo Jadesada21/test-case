@@ -1,14 +1,14 @@
 import dotenv from 'dotenv'
 dotenv.config()
 import app from "./app"
-import { pool } from './db/connectPostgre.repository'
+import { prisma } from './lib/prisma'
 
 const startServer = async () => {
     try {
         const PORT = Number(process.env.PORT) || 3000
 
-        await pool.query("SELECT 1 ")
-        console.log("PostgreSQL ready")
+        await prisma.$connect()
+        console.log("Prisma + PostgreSQL ready")
 
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`)
@@ -18,5 +18,10 @@ const startServer = async () => {
         process.exit(1)
     }
 }
+
+process.on("SIGNIN", async () => {
+    await prisma.$disconnect()
+    process.exit(0)
+})
 
 startServer()
