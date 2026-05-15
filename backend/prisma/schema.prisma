@@ -22,7 +22,7 @@ model users {
   username   String   @unique @db.VarChar(255)
   email      String   @unique @db.VarChar(255)
   password   String   @db.VarChar(255)
-  role       role
+  role       role     @default(floorstaff)
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
   movies     movies[]

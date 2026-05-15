@@ -21,19 +21,18 @@ export const getAllUsersService = async () => {
 export const createUsersService = async ({
     username,
     password,
-    email,
-    role
+    email
 }: CreateUsers
 ) => {
 
     const hashedPassword = await bcrypt.hash(password, 10)
 
+
     return await prisma.users.create({
         data: {
             username,
             email,
-            password: hashedPassword,
-            role
+            password: hashedPassword
         },
 
         select: {
@@ -44,5 +43,4 @@ export const createUsersService = async ({
             created_at: true
         }
     })
-
 }

@@ -19,9 +19,9 @@ export const getAllUsersController = async (req: Request, res: Response, next: N
 
 export const createUsersController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { username, password, email, role, } = req.body
+        const { username, password, email, } = req.body
 
-        if (!username || !password || !email || !role) {
+        if (!username || !password || !email) {
             throw new AppError("Missing required field", 400)
         }
 
