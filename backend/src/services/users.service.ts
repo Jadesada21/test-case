@@ -57,6 +57,12 @@ export const patchRoleService = async (id: number, role: Role) => {
 
     return await prisma.users.update({
         where: { id },
-        data: { role }
+        data: { role },
+
+        select: {
+            id: true,
+            username: true,
+            role: true
+        }
     })
 }

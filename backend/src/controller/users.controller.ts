@@ -3,6 +3,7 @@ import { AppError } from "../util/app.error";
 import {
     getAllUsersService,
     createUsersService,
+    patchRoleService,
 } from "../services/users.service";
 
 export const getAllUsersController = async (req: Request, res: Response, next: NextFunction) => {
@@ -31,15 +32,14 @@ export const createUsersController = async (req: Request, res: Response, next: N
     }
 }
 
-// export const patchRoleController = async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//         const { id } = req.params
-//         const { role } = req.body
+export const patchRoleController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params
+        const { role } = req.body
 
-
-
-//         const user = await patchRoleService()
-//     } catch (err) {
-//         return next(err)
-//     }
-// }
+        const data = await patchRoleService(Number(id), role)
+        return res.status(200).json({ data })
+    } catch (err) {
+        return next(err)
+    }
+}
