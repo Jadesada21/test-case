@@ -27,7 +27,7 @@ export const getAllUsersService = async () => {
 export const createUsersService = async ({
     username,
     password,
-    email
+    email,
 }: CreateUsers
 ) => {
 
@@ -38,7 +38,7 @@ export const createUsersService = async ({
         data: {
             username,
             email,
-            password: hashedPassword
+            password: hashedPassword,
         },
 
         select: {
@@ -61,8 +61,10 @@ export const patchRoleService = async (id: number, role: Role) => {
 
     return await prisma.users.update({
         where: { id },
-        data: { role },
-
+        data: {
+            role,
+            updated_at: new Date()  // ← force update
+        },
         select: {
             id: true,
             username: true,

@@ -10,9 +10,14 @@ export const getAllMoviesService = async () => {
             title: true,
             year_released: true,
             rating: true,
-            created_by: true,
             created_at: true,
-            updated_at: true
+            updated_at: true,
+            users: {
+                select: {
+                    username: true,
+                    role: true
+                }
+            }
         },
         orderBy: {
             id: "desc"
@@ -21,7 +26,9 @@ export const getAllMoviesService = async () => {
 
     if (!movies.length) throw new AppError("No movies found", 404)
 
-    return movies
+    return movies.map(({ users, ...rest }) => ({
+        ...rest, created_by: users
+    }))
 }
 
 export const createMoviesService = async ({
@@ -75,7 +82,10 @@ export const patchMoviesService = async (id: number, data: Partial<MovieInput>) 
 
     return await prisma.movies.update({
         where: { id },
-        data,
+        data: {
+            ...data,
+            updated_at: new Date()
+        },
         select: {
             id: true,
             title: true,
