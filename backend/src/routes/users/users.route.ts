@@ -4,6 +4,7 @@ import {
     createUsersController,
     patchRoleController
 } from '../../controller/users.controller'
+
 import { authorize } from '../../middleware/auth'
 import { Role } from '../../types/users.type'
 

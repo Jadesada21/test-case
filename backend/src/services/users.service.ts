@@ -5,7 +5,7 @@ import { AppError } from '../util/app.error'
 
 
 export const getAllUsersService = async () => {
-    return await prisma.users.findMany({
+    const users = await prisma.users.findMany({
         select: {
             id: true,
             username: true,
@@ -18,6 +18,10 @@ export const getAllUsersService = async () => {
             id: "desc"
         }
     })
+
+    if (!users.length) throw new AppError("No user found", 404)
+
+    return users
 }
 
 export const createUsersService = async ({
