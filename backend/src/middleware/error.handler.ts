@@ -32,5 +32,5 @@ export const errorHandler = (
             return res.status(409).json({ success: false, message: `${field} already exists` })
         }
     }
-    return res.status(500).json({ success: false, message: "Internet server error" })
+    return res.status(500).json({ success: false, message: "Internal server error" })
 }

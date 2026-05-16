@@ -30,9 +30,7 @@ export const createUsersService = async ({
     email,
 }: CreateUsers
 ) => {
-
     const hashedPassword = await bcrypt.hash(password, 10)
-
 
     return await prisma.users.create({
         data: {
