@@ -1,4 +1,8 @@
-export type Role = "manager" | "teamleader" | "floorstaff"
+export enum Role {
+    manager = "manager",
+    teamleader = "teamleader",
+    floorstaff = "floorstaff"
+}
 
 export interface CreateUsers {
     username: string

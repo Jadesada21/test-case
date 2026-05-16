@@ -1,6 +1,7 @@
 import { prisma } from '../lib/prisma'
 import bcrypt from 'bcrypt'
-import { CreateUsers } from '../types/users.type'
+import { CreateUsers, Role } from '../types/users.type'
+import { AppError } from '../util/app.error'
 
 
 export const getAllUsersService = async () => {
@@ -43,5 +44,19 @@ export const createUsersService = async ({
             role: true,
             created_at: true
         }
+    })
+}
+
+export const patchRoleService = async (id: number, role: Role) => {
+    if (!Object.values(Role).includes(role)) {
+        throw new AppError("Invalid role", 400)
+    }
+
+    const user = await prisma.users.findUnique({ where: { id } })
+    if (!user) throw new AppError("User not found", 404)
+
+    return await prisma.users.update({
+        where: { id },
+        data: { role }
     })
 }

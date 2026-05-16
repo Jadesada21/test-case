@@ -12,5 +12,6 @@ export const authorize = (roles: Role | Role[]) => {
         if (!req.user || !allowedRoles.includes(req.user.role)) {
             return next(new AppError("Forbidden", 403))
         }
+        next()
     }
-}
+}   
