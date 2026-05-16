@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-export const logout = (req: Request, res: Response, next: NextFunction) => {
+export const logoutController = (req: Request, res: Response, next: NextFunction) => {
     res.clearCookie("token", {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
