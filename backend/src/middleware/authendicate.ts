@@ -12,7 +12,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
             throw new AppError("Unauthorize", 401)
         }
 
-        const decode = jwt.verify(
+        const decoded = jwt.verify(
             token,
             process.env.JWT_SECRET!
         ) as JwtPayload

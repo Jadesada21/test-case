@@ -1,8 +1,8 @@
 import { Router } from "express"
 
-import allUsers from './allusers.route'
-import createUser from './users.route'
-import login from './login.route'
+import allUsers from './users/allusers.route'
+import createUser from './users/users.route'
+import login from './users/login.route'
 
 const router = Router()
 
