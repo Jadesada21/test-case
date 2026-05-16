@@ -11,8 +11,16 @@ export const loginController = async (req: Request, res: Response, next: NextFun
             throw new AppError("Missing field", 400)
         }
 
-        const data = await loginService({ username, password })
-        return res.status(200).json({ data })
+        const { accessToken, user } = await loginService({ username, password })
+
+        res.cookie('token', accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 1000
+        })
+
+        return res.status(200).json({ user })
     } catch (err) {
         return next(err)
     }
