@@ -4,7 +4,7 @@ import type { User, UserInput, UserUpdateInput } from '../types/user.type'
 
 export const UserStore = types
     .model('UserStore', {
-        Users: types.array(types.model({
+        users: types.array(types.model({
             id: types.number,
             username: types.string,
             email: types.string,
@@ -21,7 +21,7 @@ export const UserStore = types
             self.error = null
             try {
                 const data: User[] = yield getAllUsers()
-                self.Users = data as any
+                self.users = data as any
             } catch (err) {
                 if (err instanceof Error) self.error = err.message
             } finally {
@@ -34,9 +34,11 @@ export const UserStore = types
             self.error = null
             try {
                 const data: User = yield createUsers(user)
-                self.Users.unshift(data as any)
+                self.users.unshift(data as any)
             } catch (err: unknown) {
                 if (err instanceof Error) self.error = err.message
+            } finally {
+                self.isLoading = false
             }
         }),
 
@@ -45,10 +47,10 @@ export const UserStore = types
             self.error = null
             try {
                 const data: User = yield updateUsers(id, user)
-                const index = self.Users.findIndex(u => u.id === id)
-                if (index! == -1) self.Users[index] = data as any
+                const index = self.users.findIndex(u => u.id === id)
+                if (index !== -1) self.users[index] = data as any
             } catch (err: unknown) {
-
+                if (err instanceof Error) self.error = err.message
             } finally {
                 self.isLoading = false
             }
