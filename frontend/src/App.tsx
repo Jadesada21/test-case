@@ -5,10 +5,14 @@ import ProtectedRoute from './auth/ProtectRoute'
 
 function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/movies" element={<ProtectedRoute><Movie /></ProtectedRoute>} />
-    </Routes>
+    <div className="min-h-screen bg-[#16171d] text-white">
+      <Routes>
+        <Route path="/" element={<Login />} />
+        {/* <Route path="/movies" element={<ProtectedRoute><Movie /></ProtectedRoute>} /> */}
+        <Route path="/movies" element={<Movie />}></Route>
+      </Routes>
+    </div>
+
   )
 }
 
