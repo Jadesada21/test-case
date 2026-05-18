@@ -35,10 +35,10 @@ export const MovieStore = types
 
         createMovies: flow(function* (movie: MovieInput) {
             self.isLoading = true
-            self.error = null
             try {
-                const data: Movie = yield createMovie(movie)
-                self.movies.unshift(data as any)
+                yield createMovie(movie)
+                const data: Movie[] = yield getAllMovies()
+                self.movies = data as any
             } catch (err: unknown) {
                 if (err instanceof Error) self.error = err.message
             } finally {

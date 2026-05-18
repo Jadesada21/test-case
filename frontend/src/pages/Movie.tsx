@@ -10,6 +10,8 @@ import { formatDate } from "../components/FormateDate"
 
 const MoviePage = observer(() => {
     const { movieStore, authStore } = useStore()
+
+    console.log('render, movies:', movieStore.movies.length)
     const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -24,6 +26,7 @@ const MoviePage = observer(() => {
         await authStore.logout()
         navigate("/")
     }
+
 
     if (movieStore.isLoading) return <Loading />
 
@@ -77,11 +80,12 @@ const MoviePage = observer(() => {
                         <tbody>
                             {
                                 movieStore.movies.map(movie => {
+                                    console.log('mapping movie:', movie.title)
                                     const cells = [
                                         movie.title,
                                         movie.year_released,
                                         movie.rating,
-                                        movie.created_by.username,
+                                        movie.created_by.role,
                                         formatDate(movie.created_at)
                                     ]
                                     return (

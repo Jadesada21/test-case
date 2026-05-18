@@ -6,7 +6,6 @@ import type { Props } from '../types/movie.modal.type'
 import Loading from './Loading'
 
 
-
 export const MovieModal = observer(({ isOpen, onClose }: Props) => {
     const { movieStore } = useStore()
     const [form, setForm] = useState<MovieInput>({
