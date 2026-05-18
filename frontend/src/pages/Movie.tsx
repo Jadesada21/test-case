@@ -11,12 +11,14 @@ import { formatDate } from "../components/FormateDate"
 const MoviePage = observer(() => {
     const { movieStore, authStore } = useStore()
     const navigate = useNavigate()
-
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     useEffect(() => {
         movieStore.fetchMovies()
     }, [])
+
+    const headers = ['Title', 'Year Released', 'Rating', 'Created By', 'Created At',
+        ...(authStore.user?.role === "manager" ? ['Actions'] : [])]
 
     const handleLogout = async () => {
         await authStore.logout()
@@ -27,18 +29,18 @@ const MoviePage = observer(() => {
 
 
     return (
-        <div className="min-h-screen flex justify-center items-center">
-            <div className="flex w-[70%] my-[15%] border border-white rounded-xl shadow-lg pt-8">
+        <div className="min-h-screen flex justify-center items-center text-xl">
+            <div className="min-h-[60vh] flex w-[70%] my-[15%] border border-white rounded-xl shadow-lg pt-8 pb-16">
                 <div className="w-1/4 border-r border-white mb-4">
                     <div className="flex justify-center">
-                        <p className="font-bold pt-3">Dashboard</p>
+                        <p className="font-bold">Dashboard</p>
                     </div>
                 </div>
 
                 <div className="w-3/4 pl-10 pb-4 pr-8">
                     <div className="flex justify-between items-center">
                         <div className="font-bold">
-                            <p >Username: <span className="capitalize">{authStore.user?.username}</span> </p>
+                            <p className="pb-3">Username: <span className="capitalize">{authStore.user?.username}</span> </p>
                             <p >Role: <span className="capitalize">{authStore.user?.role}</span></p>
                         </div>
 
@@ -54,7 +56,9 @@ const MoviePage = observer(() => {
 
                     <div className="pt-8">
                         <button
-                            className="border p-4 rounded-2xl bg-green-700 font-bold"
+                            className="border p-4 rounded-2xl bg-green-700 font-bold
+                            transition-all flex items-center justify-center  cursor-pointer duration-150 active:scale-90 hover:scale-105
+                            "
                             onClick={() => setIsModalOpen(true)}
                         >
                             Create Movie +
@@ -64,41 +68,44 @@ const MoviePage = observer(() => {
                     <table className="mt-8 w-full">
                         <thead>
                             <tr className="text-left">
-                                <th>Title</th>
-                                <th>Year Released</th>
-                                <th>Rating</th>
-                                <th>Created By</th>
-                                <th>Created At</th>
-                                <th>{authStore.user?.role === Role.manager ? "Actions" : ''}</th>
+                                {headers.map(header => (
+                                    <th key={header} className="pb-3">{header}</th>
+                                ))}
                             </tr>
                         </thead>
 
                         <tbody>
-                            {movieStore.movies.map(movie => (
-                                <tr key={movie.id}>
-                                    <td className="py-3">{movie.title}</td>
-                                    <td className="py-3">{movie.year_released}</td>
-                                    <td className="py-3">{movie.rating}</td>
-                                    <td className="py-3">{movie.created_by.role}</td>
-                                    <td className="py-3">{formatDate(movie.created_at)}</td>
-                                    <td className="py-3">
-                                        {authStore.user?.role === Role.manager && (
-                                            <button
-                                                onClick={() => movieStore.deleteMovie(movie.id)}
-                                                className="border p-2 rounded-2xl "
-                                            >
-                                                Delete
-                                            </button>
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
+                            {
+                                movieStore.movies.map(movie => {
+                                    const cells = [
+                                        movie.title,
+                                        movie.year_released,
+                                        movie.rating,
+                                        movie.created_by.username,
+                                        formatDate(movie.created_at)
+                                    ]
+                                    return (
+                                        <tr key={movie.id} className="border-t text-white">
+                                            {cells.map((cell, index) => (
+                                                <td key={index} className="py-6 font-bold">{cell}</td>
+                                            ))}
+                                            {authStore.user?.role === Role.manager && (
+                                                <td>
+                                                    <button
+                                                        onClick={() => movieStore.deleteMovie(movie.id)}
+                                                        className="border rounded-2xl p-3 bg-red-500
+                                                        transition-all flex items-center justify-center  cursor-pointer duration-150 active:scale-90 hover:scale-105
+                                                        "
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            )}
+                                        </tr>
+                                    )
+                                })}
                         </tbody>
                     </table>
-
-
-
-
                 </div>
             </div>
 
