@@ -4,16 +4,23 @@ import { useEffect, useState } from "react"
 import Loading from '../components/Loading'
 import { Role } from "../types/user.type"
 import { MovieModal } from "../components/MovieModal"
+import { useNavigate } from "react-router-dom"
 
 
 const MoviePage = observer(() => {
     const { movieStore, authStore } = useStore()
+    const navigate = useNavigate()
 
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     useEffect(() => {
         movieStore.fetchMovies()
     }, [])
+
+    const handleLogout = async () => {
+        await authStore.logout()
+        navigate("/")
+    }
 
     if (movieStore.isLoading) return <Loading />
 
@@ -34,7 +41,12 @@ const MoviePage = observer(() => {
                             <p className="">Role: {authStore.user?.role} Manager</p>
                         </div>
 
-                        <button className="border p-3 rounded-2xl bg-red-400 font-bold">Logout</button>
+                        <button
+                            className="border p-3 rounded-2xl bg-red-400 font-bold"
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </button>
                     </div>
 
                     <div className="pt-8">

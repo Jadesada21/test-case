@@ -1,6 +1,7 @@
 import { types, flow } from 'mobx-state-tree'
 import { login, logout } from '../api/auth.api'
 import { type LoginResponse, type User } from '../types/auth.type'
+import axios from 'axios'
 
 const UserModel = types.model('User', {
     id: types.number,
@@ -24,8 +25,10 @@ export const AuthStore = types
                 self.user = data.user
                 self.isAuthenticated = true
             } catch (err: unknown) {
-                if (err instanceof Error) {
-                    self.error = err.message
+                if (axios.isAxiosError(err) && err.response?.status === 401) {
+                    self.error = "Invalid username or password"
+                } else {
+                    self.error = "Something went wrong"
                 }
             } finally {
                 self.isLoading = false
