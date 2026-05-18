@@ -1,6 +1,7 @@
-import { types, flow } from 'mobx-state-tree'
+import { types, flow, getMembers } from 'mobx-state-tree'
 import { getAllUsers, createUsers, updateUsers } from '../api/user.api'
 import type { User, UserInput, UserUpdateInput } from '../types/user.type'
+import type { LoginResponse } from '../types/auth.type'
 
 export const UserStore = types
     .model('UserStore', {

@@ -54,3 +54,11 @@ export const patchRoleController = async (req: Request, res: Response, next: Nex
         return next(err)
     }
 }
+
+export const getMeController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        return res.status(200).json({ user: req.user })
+    } catch (err) {
+        return next(err)
+    }
+}

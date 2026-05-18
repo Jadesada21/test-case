@@ -9,3 +9,8 @@ export const login = async (data: LoginInput): Promise<LoginResponse> => {
 export const logout = async (): Promise<void> => {
     await api.post('/logout')
 }
+
+export const getMe = async (): Promise<LoginResponse> => {
+    const response = await api.get('/users/me')
+    return response.data
+}

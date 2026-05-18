@@ -7,7 +7,7 @@ export const MovieStore = types
         movies: types.array(types.model({
             id: types.number,
             title: types.string,
-            year_released: types.string,
+            year_released: types.number,
             rating: types.string,
             created_by: types.model({
                 username: types.string,

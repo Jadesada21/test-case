@@ -31,6 +31,7 @@ export const loginService = async ({
     const accessToken = jwt.sign(
         {
             id: user.id,
+            username: user.username,
             role: user.role
         },
 
@@ -50,7 +51,6 @@ export const loginService = async ({
             id: user.id,
             username:
                 user.username,
-
             role:
                 user.role
         }

@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite"
 import { useStore } from "../store"
 import Loading from "../components/Loading"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { handleKeyDown } from "../components/KeyDown"
 
@@ -22,7 +22,11 @@ const LoginPage = observer(() => {
         }
     }
 
-    if (authStore.isLoading) return <Loading />
+    useEffect(() => {
+        if (authStore.isAuthenticated) {
+            navigate('/movies')
+        }
+    }, [authStore.isAuthenticated])
 
     return (
         <div className="min-h-screen flex justify-center items-center">
@@ -89,7 +93,9 @@ const LoginPage = observer(() => {
                     type="submit"
                     onClick={handleLogin}
                     disabled={authStore.isLoading}
-                    className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+                    className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 
+                    transition-all flex items-center justify-center  cursor-pointer duration-150 active:scale-90 hover:scale-105
+                    disabled:opacity-50"
                 >
                     Login
                 </button>

@@ -1,5 +1,5 @@
 import { types, flow } from 'mobx-state-tree'
-import { login, logout } from '../api/auth.api'
+import { getMe, login, logout } from '../api/auth.api'
 import { type LoginResponse, type User } from '../types/auth.type'
 import axios from 'axios'
 
@@ -13,7 +13,7 @@ export const AuthStore = types
     .model('AuthStore', {
         user: types.maybeNull(UserModel),
         isAuthenticated: types.optional(types.boolean, false),
-        isLoading: types.optional(types.boolean, false),
+        isLoading: types.optional(types.boolean, true),
         error: types.maybeNull(types.string)
     })
     .actions(self => ({
@@ -30,6 +30,20 @@ export const AuthStore = types
                 } else {
                     self.error = "Something went wrong"
                 }
+            } finally {
+                self.isLoading = false
+            }
+        }),
+
+        checkAuth: flow(function* () {
+            self.isLoading = true
+            try {
+                const data: LoginResponse = yield getMe()
+                self.user = data.user
+                self.isAuthenticated = true
+            } catch (err) {
+                self.user = null
+                self.isAuthenticated = false
             } finally {
                 self.isLoading = false
             }
