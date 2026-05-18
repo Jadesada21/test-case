@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite"
-import { useStore } from "../stores"
+import { useStore } from "../store/"
 import { useEffect, useState } from "react"
-import Loading from '../components/loading'
+import Loading from '../components/Loading'
 import { Role } from "../types/user.type"
 import { MovieModal } from "../components/MovieModal"
 

@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite"
-import { useStore } from "../stores"
-import Loading from "../components/loading"
+import { useStore } from "../store"
+import Loading from "../components/Loading"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
